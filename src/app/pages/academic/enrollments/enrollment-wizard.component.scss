@@ -1,0 +1,393 @@
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  .title-section {
+    h4 {
+      margin: 0 0 0.25rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      nb-icon {
+        font-size: 1.5rem;
+      }
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--text-hint-color);
+      font-size: 0.875rem;
+    }
+  }
+}
+
+// Stepper Container
+.step-container {
+  padding: 1.5rem 0;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+.step-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-basic-color-3);
+
+  button {
+    min-width: 120px;
+  }
+}
+
+// PASO 1: Layout de dos columnas
+.two-column-layout {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  flex: 1;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.left-panel {
+  .student-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+
+    .student-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--color-primary-default);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+
+      nb-icon {
+        font-size: 3rem;
+      }
+    }
+
+    .student-details {
+      width: 100%;
+
+      h5 {
+        margin: 0 0 1rem 0;
+        text-align: center;
+        font-weight: 600;
+      }
+
+      .info-row {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid var(--border-basic-color-3);
+
+        nb-icon {
+          color: var(--color-primary-default);
+          font-size: 1.25rem;
+        }
+
+        span {
+          flex: 1;
+          font-size: 0.9rem;
+        }
+
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+
+  .info-alert {
+    margin-top: 1rem;
+  }
+}
+
+.right-panel {
+  nb-card {
+    height: 100%;
+  }
+
+  .subjects-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .subjects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+
+    .subject-card {
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-left-width: 4px;
+      border-left-style: solid;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      &.selected {
+        background-color: var(--background-basic-color-2);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      nb-card-body {
+        padding: 1rem;
+      }
+
+      .subject-content {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+
+        .subject-icon {
+          font-size: 2rem;
+          flex-shrink: 0;
+        }
+
+        .subject-info {
+          flex: 1;
+
+          h6 {
+            margin: 0 0 0.25rem 0;
+            font-weight: 600;
+          }
+
+          p {
+            margin: 0;
+            font-size: 0.875rem;
+            color: var(--text-hint-color);
+          }
+        }
+
+        .subject-checkbox {
+          flex-shrink: 0;
+        }
+      }
+    }
+  }
+}
+
+// PASO 2: Planes Pedagógicos
+.plans-header {
+  margin-bottom: 1.5rem;
+
+  h5 {
+    margin: 0 0 0.5rem 0;
+  }
+
+  p {
+    margin: 0;
+    color: var(--text-hint-color);
+  }
+}
+
+.accordion-header-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+
+  nb-icon {
+    font-size: 1.5rem;
+  }
+
+  span {
+    flex: 1;
+    font-weight: 600;
+  }
+}
+
+.pedagogical-form {
+  padding: 1rem 0;
+
+  .form-group {
+    margin-bottom: 1.5rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--text-basic-color);
+
+      nb-icon {
+        color: var(--color-primary-default);
+      }
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .hint-text {
+      display: block;
+      margin-top: 0.25rem;
+      font-size: 0.75rem;
+      color: var(--color-danger-default);
+    }
+  }
+}
+
+// PASO 3: Revisión
+.review-section {
+  .summary-card {
+    margin-bottom: 1.5rem;
+
+    nb-card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      nb-icon {
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+
+    .summary-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+
+      strong {
+        color: var(--text-hint-color);
+        font-size: 0.875rem;
+      }
+
+      span {
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .subject-summary {
+    width: 100%;
+
+    .subject-summary-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+
+      nb-icon {
+        font-size: 1.5rem;
+      }
+
+      h6 {
+        margin: 0;
+        flex: 1;
+        font-weight: 600;
+      }
+    }
+
+    .subject-summary-content {
+      padding-left: 2.25rem;
+
+      .plan-detail {
+        margin-bottom: 1rem;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        strong {
+          display: block;
+          margin-bottom: 0.25rem;
+          color: var(--text-hint-color);
+          font-size: 0.875rem;
+        }
+
+        p {
+          margin: 0;
+          padding: 0.5rem;
+          background-color: var(--background-basic-color-2);
+          border-radius: 4px;
+          font-size: 0.875rem;
+        }
+      }
+    }
+  }
+
+  .final-card {
+    nb-card-body {
+      padding: 2rem;
+    }
+
+    .final-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1rem;
+
+      .success-icon {
+        font-size: 4rem;
+        color: var(--color-success-default);
+      }
+
+      h5 {
+        margin: 0;
+        font-weight: 600;
+      }
+
+      p {
+        margin: 0;
+        color: var(--text-hint-color);
+      }
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .two-column-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .subjects-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .step-actions {
+    flex-direction: column;
+
+    button {
+      width: 100%;
+    }
+  }
+}

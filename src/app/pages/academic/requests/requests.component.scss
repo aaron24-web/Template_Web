@@ -1,0 +1,228 @@
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  .title-section {
+    h4 {
+      margin: 0 0 0.25rem 0;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--text-hint-color);
+      font-size: 0.875rem;
+    }
+  }
+}
+
+// Vista Kanban
+.kanban-container {
+  display: flex;
+  gap: 1.5rem;
+  // --- START MODIFIED STYLES ---
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 1rem; // Space for the scrollbar
+  // --- END MODIFIED STYLES ---
+
+  .kanban-column {
+    // --- START MODIFIED STYLES ---
+    width: 380px; // Fixed width for each column
+    flex-shrink: 0; // Prevent columns from shrinking
+    // --- END MODIFIED STYLES ---
+
+    nb-card {
+      height: 100%;
+    }
+
+    nb-card-body {
+      max-height: calc(100vh - 350px); // Adjusted height
+      overflow-y: auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+  }
+
+  .column-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+
+    nb-icon {
+      font-size: 1.25rem;
+    }
+
+    span {
+      font-weight: 600;
+      flex: 1;
+    }
+  }
+
+  .request-card {
+    flex: 0 0 calc(50% - 0.5rem); // Two cards per row with gap
+    margin-bottom: 0; // Use gap for spacing instead of margin
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    nb-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1rem;
+
+      strong {
+        font-size: 0.9rem;
+      }
+    }
+
+    nb-card-body {
+      padding: 0.75rem 1rem;
+
+      p {
+        margin: 0 0 0.5rem 0;
+        font-size: 0.875rem;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+
+      .need-text {
+        color: var(--text-hint-color);
+        font-style: italic;
+        margin-top: 0.75rem;
+      }
+    }
+
+    nb-card-footer {
+      padding: 0.75rem 1rem;
+      display: flex;
+      justify-content: center;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
+
+// Vista Lista
+.list-container {
+  nb-list {
+    .list-item {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-basic-color-3);
+
+      &:hover {
+        background-color: var(--background-basic-color-2);
+      }
+
+      .list-item-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        gap: 1rem;
+      }
+
+      .list-item-main {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .list-item-info {
+        flex: 1;
+
+        h6 {
+          margin: 0 0 0.25rem 0;
+          font-weight: 600;
+        }
+
+        .client-name {
+          margin: 0 0 0.5rem 0;
+          font-size: 0.875rem;
+          color: var(--text-basic-color);
+        }
+
+        .need-text {
+          margin: 0;
+          font-size: 0.875rem;
+          color: var(--text-hint-color);
+          font-style: italic;
+        }
+      }
+
+      .list-item-meta {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 0.5rem;
+        min-width: 150px;
+
+        .date {
+          font-size: 0.875rem;
+          color: var(--text-hint-color);
+        }
+      }
+
+      .list-item-actions {
+        min-width: 150px;
+        display: flex;
+        justify-content: flex-end;
+      }
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 1200px) {
+  .kanban-container {
+    flex-direction: column;
+
+    .kanban-column {
+      max-width: 100%;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .list-item-content {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .list-item-main {
+    flex-direction: column !important;
+    width: 100%;
+  }
+
+  .list-item-meta {
+    align-items: flex-start !important;
+  }
+
+  .list-item-actions {
+    width: 100%;
+
+    button {
+      width: 100%;
+    }
+  }
+}

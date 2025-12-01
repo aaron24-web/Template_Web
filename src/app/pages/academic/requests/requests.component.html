@@ -1,0 +1,174 @@
+<nb-card>
+  <nb-card-header>
+    <div class="header-container">
+      <div class="title-section">
+        <h4>Gestión de Solicitudes</h4>
+        <p class="subtitle">Solicitudes de inscripción recibidas</p>
+      </div>
+      <div class="actions-section">
+        <nb-button-group>
+          <button nbButton [status]="viewMode === 'kanban' ? 'primary' : 'basic'" (click)="setView('kanban')"
+            nbTooltip="Vista Kanban">
+            <nb-icon icon="grid-outline"></nb-icon>
+          </button>
+          <button nbButton [status]="viewMode === 'list' ? 'primary' : 'basic'" (click)="setView('list')"
+            nbTooltip="Vista Lista">
+            <nb-icon icon="list-outline"></nb-icon>
+          </button>
+        </nb-button-group>
+      </div>
+    </div>
+  </nb-card-header>
+
+  <nb-card-body>
+    <!-- Vista Kanban -->
+    <div *ngIf="viewMode === 'kanban'" class="kanban-container">
+      <!-- Columna: Nuevas -->
+      <div class="kanban-column">
+        <nb-card accent="info" size="small">
+          <nb-card-header>
+            <div class="column-header">
+              <nb-icon icon="inbox-outline"></nb-icon>
+              <span>Nuevas</span>
+              <nb-badge [text]="newRequests.length.toString()" status="info" position="top right"></nb-badge>
+            </div>
+          </nb-card-header>
+          <nb-card-body>
+            <nb-card *ngFor="let card of newRequests" class="request-card" status="basic"
+              (click)="openRequestDetail(card)">
+              <nb-card-header>
+                <strong>{{ card.studentName }}</strong>
+                <nb-badge [text]="statusConfig[card.status].text" [status]="statusConfig[card.status].badge"></nb-badge>
+              </nb-card-header>
+              <nb-card-body>
+                <p><strong>Cliente:</strong> {{ card.clientName }}</p>
+                <p><strong>Fecha:</strong> {{ card.date }}</p>
+                <p class="need-text">{{ card.need }}</p>
+              </nb-card-body>
+            </nb-card>
+          </nb-card-body>
+        </nb-card>
+      </div>
+
+      <!-- Columna: En Revisión -->
+      <div class="kanban-column">
+        <nb-card accent="warning" size="small">
+          <nb-card-header>
+            <div class="column-header">
+              <nb-icon icon="eye-outline"></nb-icon>
+              <span>En Revisión</span>
+              <nb-badge [text]="reviewRequests.length.toString()" status="warning" position="top right"></nb-badge>
+            </div>
+          </nb-card-header>
+          <nb-card-body>
+            <nb-card *ngFor="let card of reviewRequests" class="request-card" status="basic"
+              (click)="openRequestDetail(card)">
+              <nb-card-header>
+                <strong>{{ card.studentName }}</strong>
+                <nb-badge [text]="statusConfig[card.status].text" [status]="statusConfig[card.status].badge"></nb-badge>
+              </nb-card-header>
+              <nb-card-body>
+                <p><strong>Cliente:</strong> {{ card.clientName }}</p>
+                <p><strong>Fecha:</strong> {{ card.date }}</p>
+                <p class="need-text">{{ card.need }}</p>
+              </nb-card-body>
+            </nb-card>
+          </nb-card-body>
+        </nb-card>
+      </div>
+
+      <!-- Columna: Cerradas -->
+      <div class="kanban-column">
+        <nb-card accent="success" size="small">
+          <nb-card-header>
+            <div class="column-header">
+              <nb-icon icon="checkmark-circle-outline"></nb-icon>
+              <span>Cerradas</span>
+              <nb-badge [text]="closedRequests.length.toString()" status="success" position="top right"></nb-badge>
+            </div>
+          </nb-card-header>
+          <nb-card-body>
+            <nb-card *ngFor="let card of closedRequests" class="request-card" status="basic"
+              (click)="openRequestDetail(card)">
+              <nb-card-header>
+                <strong>{{ card.studentName }}</strong>
+                <nb-badge [text]="statusConfig[card.status].text" [status]="statusConfig[card.status].badge"></nb-badge>
+              </nb-card-header>
+              <nb-card-body>
+                <p><strong>Cliente:</strong> {{ card.clientName }}</p>
+                <p><strong>Fecha:</strong> {{ card.date }}</p>
+                <p class="need-text">{{ card.need }}</p>
+              </nb-card-body>
+            </nb-card>
+          </nb-card-body>
+        </nb-card>
+      </div>
+    </div>
+
+    <!-- Vista Lista -->
+    <div *ngIf="viewMode === 'list'" class="list-container">
+      <nb-list>
+        <nb-list-item *ngFor="let card of requestCards" (click)="openRequestDetail(card)">
+          <div class="list-item-content">
+            <div class="list-item-main">
+              <nb-icon icon="person-outline"></nb-icon>
+              <div class="list-item-details">
+                <h6>{{ card.studentName }}</h6>
+                <p class="caption">{{ card.clientName }}</p>
+              </div>
+            </div>
+            <div class="list-item-info">
+              <span>{{ card.date }}</span>
+              <nb-badge [text]="statusConfig[card.status].text" [status]="statusConfig[card.status].badge"></nb-badge>
+            </div>
+          </div>
+        </nb-list-item>
+      </nb-list>
+    </div>
+  </nb-card-body>
+</nb-card>
+
+<!-- Detalle de Solicitud (Modal Overlay) -->
+<div class="request-detail-overlay" *ngIf="selectedRequestCard" (click)="closeRequestDetail()">
+  <div class="request-detail-modal" (click)="$event.stopPropagation()">
+    <nb-card>
+      <nb-card-header>
+        <div class="modal-header">
+          <h5>Detalle de Solicitud</h5>
+          <button nbButton ghost size="small" (click)="closeRequestDetail()">
+            <nb-icon icon="close-outline"></nb-icon>
+          </button>
+        </div>
+      </nb-card-header>
+      <nb-card-body>
+        <div class="detail-row">
+          <strong>Estudiante:</strong>
+          <span>{{ selectedRequestCard.studentName }}</span>
+        </div>
+        <div class="detail-row">
+          <strong>Cliente:</strong>
+          <span>{{ selectedRequestCard.clientName }}</span>
+        </div>
+        <div class="detail-row">
+          <strong>Fecha:</strong>
+          <span>{{ selectedRequestCard.date }}</span>
+        </div>
+        <div class="detail-row">
+          <strong>Estado:</strong>
+          <nb-badge [text]="statusConfig[selectedRequestCard.status].text"
+            [status]="statusConfig[selectedRequestCard.status].badge"></nb-badge>
+        </div>
+        <div class="detail-section">
+          <strong>Necesidad Detectada:</strong>
+          <p>{{ selectedRequestCard.need }}</p>
+        </div>
+      </nb-card-body>
+      <nb-card-footer>
+        <button nbButton status="primary" (click)="startEnrollment(selectedRequestCard.originalRequest)" [disabled]="selectedRequestCard.status !== 'new'">
+          <span *ngIf="selectedRequestCard.status === 'new'">Iniciar Inscripción</span>
+          <span *ngIf="selectedRequestCard.status !== 'new'">Ver Inscripción</span>
+        </button>
+      </nb-card-footer>
+    </nb-card>
+  </div>
+</div>

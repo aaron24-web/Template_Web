@@ -1,0 +1,49 @@
+/* You can add global styles to this file, and also import other style files */
+@use '@nebular/theme/styles/theming' as *;
+@use 'themes' as *;
+@use '@nebular/theme/styles/globals' as *;
+
+@include nb-install() {
+  @include nb-theme-global();
+}
+
+/* Estilos globales */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+}
+
+nb-layout-column {
+  padding: 2rem !important;
+}
+
+/* Sidebar */
+.menu-sidebar {
+  margin-top: 0;
+
+  ::ng-deep nb-menu {
+    padding-top: 1rem;
+  }
+}
+
+/* Status cards */
+nb-card[accent] {
+  border-left-width: 0.25rem;
+  border-left-style: solid;
+}
+
+/* Fix para iconos de Eva Icons */
+nb-icon {
+  font-size: inherit !important;
+  width: auto !important;
+  height: auto !important;
+  
+  svg {
+    width: 1em !important;
+    height: 1em !important;
+  }
+}

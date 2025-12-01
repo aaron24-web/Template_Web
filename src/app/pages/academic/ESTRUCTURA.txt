@@ -1,0 +1,23 @@
+﻿Listado de rutas de carpetas
+El número de serie del volumen es E590-10E0
+C:\USERS\KENNA\DESKTOP\BOCETO\SRC\APP\PAGES\ACADEMIC
+│   academic-menu.ts
+│   academic.models.ts
+│   academic.routes.ts
+│   ADVANCED-EXAMPLES.ts
+│   CHECKLIST.md
+│   ESTRUCTURA.txt
+│   INTEGRATION.example.ts
+│   README.md
+│   RESUMEN.md
+│   
+├───enrollments
+│       enrollment-wizard.component.html
+│       enrollment-wizard.component.scss
+│       enrollment-wizard.component.ts
+│       
+└───requests
+        requests.component.html
+        requests.component.scss
+        requests.component.ts
+        

@@ -1,0 +1,57 @@
+@use '@nebular/theme/styles/theming' as *;
+@use '@nebular/theme/styles/themes/default' as *;
+@use '@nebular/theme/styles/themes/dark' as *;
+@use '@nebular/theme/styles/themes/cosmic' as *;
+@use '@nebular/theme/styles/themes/corporate' as *;
+
+$nb-themes: nb-register-theme((
+  layout-padding-top: 2.25rem,
+  menu-item-icon-margin: 0 0.5rem 0 0,
+  card-height-tiny: 13.5rem,
+  card-height-small: 21.1875rem,
+  card-height-medium: 28.875rem,
+  card-height-large: 36.5625rem,
+  card-height-giant: 44.25rem,
+  card-margin-bottom: 1.875rem,
+  card-header-with-select-padding-top: 0.5rem,
+  card-header-with-select-padding-bottom: 0.5rem,
+), default, default);
+
+$nb-themes: nb-register-theme((
+  layout-padding-top: 2.25rem,
+  menu-item-icon-margin: 0 0.5rem 0 0,
+  card-height-tiny: 13.5rem,
+  card-height-small: 21.1875rem,
+  card-height-medium: 28.875rem,
+  card-height-large: 36.5625rem,
+  card-height-giant: 44.25rem,
+  card-margin-bottom: 1.875rem,
+  card-header-with-select-padding-top: 0.5rem,
+  card-header-with-select-padding-bottom: 0.5rem,
+), dark, dark);
+
+$nb-themes: nb-register-theme((
+  layout-padding-top: 2.25rem,
+  menu-item-icon-margin: 0 0.5rem 0 0,
+  card-height-tiny: 13.5rem,
+  card-height-small: 21.1875rem,
+  card-height-medium: 28.875rem,
+  card-height-large: 36.5625rem,
+  card-height-giant: 44.25rem,
+  card-margin-bottom: 1.875rem,
+  card-header-with-select-padding-top: 0.5rem,
+  card-header-with-select-padding-bottom: 0.5rem,
+), cosmic, cosmic);
+
+$nb-themes: nb-register-theme((
+  layout-padding-top: 2.25rem,
+  menu-item-icon-margin: 0 0.5rem 0 0,
+  card-height-tiny: 13.5rem,
+  card-height-small: 21.1875rem,
+  card-height-medium: 28.875rem,
+  card-height-large: 36.5625rem,
+  card-height-giant: 44.25rem,
+  card-margin-bottom: 1.875rem,
+  card-header-with-select-padding-top: 0.5rem,
+  card-header-with-select-padding-bottom: 0.5rem,
+), corporate, corporate);

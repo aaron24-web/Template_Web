@@ -1,0 +1,152 @@
+<nb-card>
+  <nb-card-header>
+    <h4>
+      {{ requestId ? 'Editar Inscripción #' + requestId : 'Nueva Inscripción' }}
+    </h4>
+    <p class="subtitle" *ngIf="enrollment">
+      Estudiante: {{ enrollment.student?.full_name }}
+    </p>
+  </nb-card-header>
+  <nb-card-body>
+    <nb-alert status="danger" *ngIf="error">
+      {{ error }}
+    </nb-alert>
+
+    <div *ngIf="isLoading" class="loading-container">
+      <p>Cargando datos de la inscripción...</p>
+    </div>
+
+    <nb-accordion *ngIf="!isLoading && enrollment">
+      <nb-accordion-item expanded>
+        <nb-accordion-item-header>
+          Paso 1: Información del Estudiante
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+          <div class="step-container">
+            <h4>Datos del Estudiante y Cliente</h4>
+            <div class="info-grid">
+              <div class="info-item">
+                <label>Estudiante:</label>
+                <p>{{ enrollment.student?.full_name }}</p>
+              </div>
+              <div class="info-item">
+                <label>Grado:</label>
+                <p>{{ enrollment.student?.grade || 'N/A' }}</p>
+              </div>
+              <div class="info-item">
+                <label>Cliente:</label>
+                <p>{{ enrollment.student?.client?.full_name }}</p>
+              </div>
+              <div class="info-item">
+                <label>Email:</label>
+                <p>{{ enrollment.student?.client?.email }}</p>
+              </div>
+            </div>
+            <div class="info-item full-width">
+              <label>Necesidad Original:</label>
+              <p class="need-text">{{ enrollment.request?.need_description || 'No especificada.' }}</p>
+            </div>
+          </div>
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+
+      <nb-accordion-item>
+        <nb-accordion-item-header>
+          Paso 2: Selección de Materias
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+          <div class="step-container">
+            <h4>Materias del Programa</h4>
+            <p class="subtitle">Añade las materias y asigna un asesor para cada una.</p>
+
+            <!-- Formulario para añadir nueva materia -->
+            <nb-card>
+              <nb-card-header>Agregar Nueva Materia</nb-card-header>
+              <nb-card-body class="add-subject-form">
+                <nb-select placeholder="1. Seleccionar Materia" 
+                           fullWidth 
+                           [(ngModel)]="subjectToAdd" 
+                           (selectedChange)="onSubjectSelected($event)">
+                  <nb-option *ngFor="let subject of availableSubjects" [value]="subject.id">
+                    {{ subject.name }}
+                  </nb-option>
+                </nb-select>
+
+                <nb-select placeholder="2. Asignar Asesor" 
+                           fullWidth 
+                           [(ngModel)]="advisorToAssign"
+                           [disabled]="!subjectToAdd || availableAdvisors.length === 0">
+                  <nb-option *ngIf="subjectToAdd && availableAdvisors.length === 0" disabled>
+                    No hay asesores para esta materia
+                  </nb-option>
+                  <nb-option *ngFor="let advisor of availableAdvisors" [value]="advisor.id">
+                    {{ advisor.name }}
+                  </nb-option>
+                </nb-select>
+
+                <button nbButton status="primary" (click)="addSubject()" [disabled]="!subjectToAdd || !advisorToAssign || isAdding">
+                  <nb-icon icon="plus-outline"></nb-icon>
+                  {{ isAdding ? 'Agregando...' : 'Agregar Materia' }}
+                </button>
+              </nb-card-body>
+            </nb-card>
+
+            <!-- Lista de materias añadidas -->
+            <nb-card *ngIf="enrollment && enrollment.subjects && enrollment.subjects.length > 0">
+              <nb-card-header>Materias en el Plan</nb-card-header>
+              <nb-list>
+                <nb-list-item *ngFor="let item of enrollment.subjects">
+                  <div class="subject-item">
+                    <div class="subject-details">
+                      <nb-icon icon="book-open-outline"></nb-icon>
+                      <div class="subject-info">
+                        <strong>{{ item.subject?.name }}</strong>
+                        <span class="caption">Asesor: {{ item.advisor?.full_name }}</span>
+                      </div>
+                    </div>
+                    <button nbButton ghost status="danger" size="small" (click)="removeSubject(item.id)" nbTooltip="Quitar materia">
+                      <nb-icon icon="trash-2-outline"></nb-icon>
+                    </button>
+                  </div>
+                </nb-list-item>
+              </nb-list>
+            </nb-card>
+
+            <nb-alert status="basic" *ngIf="!enrollment.subjects || enrollment.subjects.length === 0">
+              Aún no se han añadido materias a esta inscripción.
+            </nb-alert>
+          </div>
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+
+      <nb-accordion-item>
+        <nb-accordion-item-header>
+          Paso 3: Resumen y Envío
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+          <div class="step-container">
+            <h4>Resumen de la Inscripción</h4>
+            <p>Revisa el plan de estudio antes de enviarlo al cliente para su aprobación.</p>
+            
+            <nb-card>
+              <nb-card-header>Detalles Finales</nb-card-header>
+              <nb-card-body>
+                <p><strong>Estudiante:</strong> {{ enrollment.student?.full_name }}</p>
+                <p><strong>Materias en el plan:</strong> {{ enrollment.subjects?.length }}</p>
+              </nb-card-body>
+            </nb-card>
+            <br>
+            <button nbButton status="success" (click)="sendToClient()" [disabled]="!enrollment.subjects || enrollment.subjects.length === 0">
+              Enviar a Cliente para Aprobación
+            </button>
+          </div>
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+    </nb-accordion>
+
+    <div class="footer-actions">
+      <button nbButton status="danger" (click)="cancel()">Cancelar y Salir</button>
+    </div>
+
+  </nb-card-body>
+</nb-card>
