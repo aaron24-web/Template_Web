@@ -3,20 +3,29 @@
   <div class="form-group">
     <label for="fullName">Full Name</label>
     <input type="text" id="fullName" nbInput fullWidth placeholder="Full Name" formControlName="fullName">
+    <p *ngIf="registerForm.get('fullName')?.invalid && registerForm.get('fullName')?.touched" class="caption status-danger">
+      El nombre completo es requerido.
+    </p>
   </div>
   <div class="form-group">
     <label for="email">Email address</label>
     <input type="email" id="email" nbInput fullWidth placeholder="Enter email" formControlName="email">
+    <p *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="caption status-danger">
+      Por favor ingresa un email válido.
+    </p>
   </div>
   <div class="form-group">
     <label for="password">Password</label>
     <input type="password" id="password" nbInput fullWidth placeholder="Password" formControlName="password">
+    <p *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="caption status-danger">
+      La contraseña debe tener al menos 6 caracteres.
+    </p>
   </div>
   <div class="form-group">
     <label for="confirmPassword">Confirm Password</label>
     <input type="password" id="confirmPassword" nbInput fullWidth placeholder="Confirm Password" formControlName="confirmPassword">
-    <p *ngIf="registerForm.errors?.['passwordMismatch'] && (registerForm.get('confirmPassword')?.touched || registerForm.get('confirmPassword')?.dirty)" class="caption status-danger">
-      Passwords do not match.
+    <p *ngIf="registerForm.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')?.touched" class="caption status-danger">
+      Las contraseñas no coinciden.
     </p>
   </div>
   <div class="form-group">
@@ -25,8 +34,11 @@
       <nb-option value="client">Client</nb-option>
       <nb-option value="advisor">Advisor</nb-option>
     </nb-select>
+    <p *ngIf="registerForm.get('role')?.invalid && registerForm.get('role')?.touched" class="caption status-danger">
+      Por favor selecciona un rol.
+    </p>
   </div>
-  <button type="submit" nbButton fullWidth status="primary" [disabled]="registerForm.invalid">Register</button>
+  <button type="submit" nbButton fullWidth status="primary">Register</button>
 </form>
 <div class="links">
   <a routerLink="../login">Login</a>

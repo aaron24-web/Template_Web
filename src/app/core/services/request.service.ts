@@ -59,6 +59,42 @@ export class RequestService {
         );
     }
 
+    getRequest(id: string): Observable<TutoringRequest> {
+        const query = this.supabase.client
+            .from('tutoring_requests')
+            .select(`
+                id,
+                client_id,
+                student_id,
+                need_description,
+                status,
+                created_at,
+                client:clients (
+                    id,
+                    full_name,
+                    email,
+                    phone
+                ),
+                student:students (
+                    id,
+                    full_name,
+                    grade
+                )
+            `)
+            .eq('id', id)
+            .single();
+
+        return from(query).pipe(
+            map(response => {
+                if (response.error) {
+                    console.error('Error fetching request:', response.error);
+                    throw response.error;
+                }
+                return response.data as TutoringRequest;
+            })
+        );
+    }
+
     updateStatus(id: string, status: RequestStatus): Observable<void> {
         return from(
             this.supabase.client

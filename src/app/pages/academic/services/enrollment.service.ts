@@ -13,23 +13,24 @@ export class EnrollmentService {
      * Creates a new 'draft' enrollment from a tutoring request.
      */
     createEnrollmentFromRequest(request: TutoringRequest): Observable<Enrollment> {
+        console.log('[ENROLLMENT_SERVICE] Creating enrollment from request:', request);
+        
         return from(this.supabase.client.auth.getUser()).pipe(
             switchMap(userResponse => {
-                // --- DEVELOPMENT FIX START ---
-                // In a real app, you'd handle the case where the user is not authenticated,
-                // likely by redirecting to a login page. For now, we'll use a fallback ID.
-                const userId = userResponse.data.user?.id || 'd0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'; // Fallback to admin_id from the seed script
+                const userId = userResponse.data.user?.id || 'd0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11';
                 if (!userResponse.data.user) {
-                    console.warn('User not authenticated. Using fallback user ID for development.');
+                    console.warn('[ENROLLMENT_SERVICE] User not authenticated. Using fallback user ID for development.');
                 }
-                // --- DEVELOPMENT FIX END ---
+                console.log('[ENROLLMENT_SERVICE] Using user ID:', userId);
 
                 const newEnrollment = {
                     request_id: request.id,
                     student_id: request.student_id,
                     status: 'draft' as const,
-                    created_by: userId, // Use the potentially fallback ID
+                    created_by: userId,
                 };
+                
+                console.log('[ENROLLMENT_SERVICE] Inserting enrollment:', newEnrollment);
 
                 const query = this.supabase.client
                     .from('enrollments')
@@ -39,7 +40,12 @@ export class EnrollmentService {
 
                 return from(query).pipe(
                     map(response => {
-                        if (response.error) throw response.error;
+                        console.log('[ENROLLMENT_SERVICE] Insert response:', response);
+                        if (response.error) {
+                            console.error('[ENROLLMENT_SERVICE] Database error:', response.error);
+                            throw response.error;
+                        }
+                        console.log('[ENROLLMENT_SERVICE] Enrollment created successfully:', response.data);
                         return response.data as Enrollment;
                     })
                 );

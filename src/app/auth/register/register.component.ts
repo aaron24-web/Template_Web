@@ -25,7 +25,12 @@ export class RegisterComponent {
   }, { validators: this.passwordMatchValidator });
 
   async register() {
+    // Mark all fields as touched to show validation errors
+    this.registerForm.markAllAsTouched();
+    
     if (this.registerForm.invalid) {
+      console.log('Form is invalid:', this.registerForm.errors);
+      alert('Por favor completa todos los campos correctamente.');
       return;
     }
 
@@ -42,8 +47,10 @@ export class RegisterComponent {
     });
 
     if (error) {
-      // Show error message
+      console.error('Registration error:', error);
+      alert(`Error al registrar: ${error.message}`);
     } else {
+      alert('Usuario registrado exitosamente. Por favor inicia sesión.');
       this.router.navigate(['/auth/login']);
     }
   }

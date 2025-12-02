@@ -21,7 +21,7 @@ import { EnrollmentService } from '../services/enrollment.service';
 import { AdvisorService } from '../services/advisor.service';
 import { SubjectService } from '../services/subject.service';
 import { RequestService } from '../../../core/services/request.service';
-import { Enrollment, ENROLLMENT_STATUS_CONFIG, Subject, Advisor } from '../academic.models';
+import { Enrollment, ENROLLMENT_STATUS_CONFIG, Subject, Advisor, TutoringRequest } from '../academic.models';
 
 @Component({
   standalone: true,
@@ -74,14 +74,27 @@ export class EnrollmentWizardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadInitialData();
+    
+    // Check if we're creating a new enrollment from a request
+    this.route.queryParams.subscribe(queryParams => {
+      this.requestId = queryParams['requestId'];
+      if (this.requestId) {
+        console.log('Creating new enrollment from request:', this.requestId);
+        this.createEnrollmentFromRequest(this.requestId);
+        return;
+      }
+    });
+
+    // Check if we're editing an existing enrollment
     this.route.params.subscribe(params => {
       const id = params['id'];
-      this.requestId = id;
-      if (id) {
+      if (id && id !== 'new') {
+        console.log('Loading existing enrollment:', id);
         this.loadEnrollment(id);
-      } else {
+      } else if (!this.requestId) {
+        // If no ID and no requestId, show error
         this.isLoading = false;
-        this.error = 'No se proporcionó un ID de inscripción.';
+        this.error = 'No se proporcionó un ID de inscripción o solicitud.';
         console.error(this.error);
       }
     });
@@ -91,6 +104,41 @@ export class EnrollmentWizardComponent implements OnInit {
     this.subjectService.getSubjects().subscribe({
       next: (subjects) => this.availableSubjects = subjects,
       error: (err) => console.error('Error loading subjects', err)
+    });
+  }
+
+  createEnrollmentFromRequest(requestId: string): void {
+    this.isLoading = true;
+    this.error = null;
+    console.log('[WIZARD] Starting enrollment creation for request:', requestId);
+    
+    this.requestService.getRequest(requestId).subscribe({
+      next: (request: TutoringRequest) => {
+        console.log('[WIZARD] Request data loaded:', request);
+        if (!request) {
+          this.error = 'No se encontró la solicitud especificada.';
+          this.isLoading = false;
+          return;
+        }
+        
+        this.enrollmentService.createEnrollmentFromRequest(request).subscribe({
+          next: (enrollment: Enrollment) => {
+            this.enrollment = enrollment;
+            this.isLoading = false;
+            console.log('[WIZARD] New enrollment created successfully:', this.enrollment);
+          },
+          error: (err: any) => {
+            console.error('[WIZARD] Error creating enrollment from request:', err);
+            this.error = 'No se pudo crear la inscripción desde la solicitud. Error: ' + JSON.stringify(err);
+            this.isLoading = false;
+          }
+        });
+      },
+      error: (err: any) => {
+        console.error('[WIZARD] Error loading request:', err);
+        this.error = 'No se pudo cargar la solicitud. Error: ' + JSON.stringify(err);
+        this.isLoading = false;
+      }
     });
   }
 
@@ -105,7 +153,7 @@ export class EnrollmentWizardComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error loading enrollment:', err);
-        this.error = 'No se pudo cargar la información de la inscripción. Por favor, intente de nuevo.';
+        this.error = 'No se pudo cargar la información de la inscripción. Por favor, intente de nuevo. Error: ' + (err.message || 'Desconocido');
         this.isLoading = false;
       }
     });
