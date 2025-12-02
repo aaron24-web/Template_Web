@@ -36,4 +36,9 @@ export const ACADEMIC_ROUTES: Routes = [
     loadComponent: () =>
       import('./advisors/advisor-edit.component').then(m => m.AdvisorEditComponent),
   },
+  {
+    path: 'advisors/specializations',
+    loadComponent: () =>
+      import('./advisors/advisor-specializations.component').then(m => m.AdvisorSpecializationsComponent),
+  },
 ];

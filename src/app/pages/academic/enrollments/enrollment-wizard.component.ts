@@ -101,9 +101,19 @@ export class EnrollmentWizardComponent implements OnInit {
   }
 
   loadInitialData(): void {
+    console.log('[WIZARD] Loading initial data (subjects)...');
     this.subjectService.getSubjects().subscribe({
-      next: (subjects) => this.availableSubjects = subjects,
-      error: (err) => console.error('Error loading subjects', err)
+      next: (subjects) => {
+        console.log('[WIZARD] Subjects loaded:', subjects);
+        this.availableSubjects = subjects;
+        if (subjects.length === 0) {
+          console.warn('[WIZARD] No subjects found in database');
+        }
+      },
+      error: (err) => {
+        console.error('[WIZARD] Error loading subjects:', err);
+        this.error = 'Error al cargar las materias: ' + JSON.stringify(err);
+      }
     });
   }
 
@@ -159,17 +169,40 @@ export class EnrollmentWizardComponent implements OnInit {
     });
   }
 
-  onSubjectSelected(subjectId: number): void {
+  onSubjectSelected(subjectId: number | null): void {
+    console.log('[WIZARD] Subject selected:', subjectId, 'Type:', typeof subjectId);
+    console.log('[WIZARD] Available subjects:', this.availableSubjects);
+    
     this.advisorToAssign = null;
     this.availableAdvisors = [];
-    if (!subjectId) return;
+    
+    if (!subjectId) {
+      console.log('[WIZARD] No subject ID provided');
+      return;
+    }
 
     const selectedSubject = this.availableSubjects.find(s => s.id === subjectId);
+    console.log('[WIZARD] Found subject:', selectedSubject);
+    
     if (selectedSubject) {
+      console.log('[WIZARD] Loading advisors for subject:', selectedSubject.name);
       this.advisorService.getAdvisorsBySubject(selectedSubject.name).subscribe({
-        next: (advisors) => this.availableAdvisors = advisors,
-        error: (err) => console.error('Error loading advisors for subject', err)
+        next: (advisors) => {
+          console.log('[WIZARD] Advisors loaded:', advisors);
+          this.availableAdvisors = advisors;
+          if (advisors.length === 0) {
+            console.warn('[WIZARD] No advisors found for subject:', selectedSubject.name);
+            this.error = `No hay asesores disponibles para la materia "${selectedSubject.name}". Por favor, registra asesores para esta materia primero.`;
+          }
+        },
+        error: (err) => {
+          console.error('[WIZARD] Error loading advisors for subject:', err);
+          this.error = 'Error al cargar asesores: ' + JSON.stringify(err);
+        }
       });
+    } else {
+      console.error('[WIZARD] Subject not found in available subjects');
+      this.error = 'No se encontró la materia seleccionada';
     }
   }
 

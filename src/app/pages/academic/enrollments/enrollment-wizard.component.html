@@ -66,7 +66,7 @@
                 <nb-select placeholder="1. Seleccionar Materia" 
                            fullWidth 
                            [(ngModel)]="subjectToAdd" 
-                           (selectedChange)="onSubjectSelected($event)">
+                           (selectedChange)="onSubjectSelected(subjectToAdd)">
                   <nb-option *ngFor="let subject of availableSubjects" [value]="subject.id">
                     {{ subject.name }}
                   </nb-option>

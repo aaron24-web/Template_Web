@@ -74,7 +74,7 @@ export interface Enrollment {
   id: string; // uuid
   request_id: string; // uuid
   student_id: string; // uuid
-  status: 'draft' | 'pending-approval' | 'approved' | 'active' | 'on-hold' | 'completed' | 'cancelled';
+  status: 'draft' | 'pending-approval' | 'approved' | 'active' | 'rejected' | 'on-hold' | 'completed' | 'cancelled';
   start_date?: string; // date
   end_date?: string; // date
   created_by: string; // uuid
@@ -182,6 +182,7 @@ export const ENROLLMENT_STATUS_CONFIG: Record<EnrollmentStatus, StatusConfig> = 
   'pending-approval': { text: 'Pendiente', badge: 'warning', icon: 'clock-outline', color: '#ffaa00' },
   approved: { text: 'Aprobada', badge: 'info', icon: 'checkmark-outline', color: '#0095ff' },
   active: { text: 'Activa', badge: 'success', icon: 'play-circle-outline', color: '#00d68f' },
+  rejected: { text: 'Rechazada', badge: 'danger', icon: 'close-outline', color: '#ff3d71' },
   'on-hold': { text: 'En Pausa', badge: 'warning', icon: 'pause-circle-outline', color: '#ffaa00' },
   completed: { text: 'Completada', badge: 'success', icon: 'checkmark-circle-2-outline', color: '#00d68f' },
   cancelled: { text: 'Cancelada', badge: 'danger', icon: 'close-circle-outline', color: '#ff3d71' },

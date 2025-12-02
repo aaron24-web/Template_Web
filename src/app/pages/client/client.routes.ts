@@ -25,6 +25,10 @@ export const CLIENT_ROUTES: Routes = [
       {
         path: 'browse',
         loadComponent: () => import('./browse/browse.component').then(m => m.BrowseComponent),
+      },
+      {
+        path: 'enrollments/approvals',
+        loadComponent: () => import('./enrollments/enrollment-approvals.component').then(m => m.EnrollmentApprovalsComponent),
       }
     ],
   },

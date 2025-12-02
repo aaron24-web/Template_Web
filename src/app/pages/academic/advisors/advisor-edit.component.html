@@ -1,18 +1,41 @@
 <nb-card>
   <nb-card-header>
-    <h3>Edit Advisor</h3>
+    <h3>Editar Asesor</h3>
   </nb-card-header>
   <nb-card-body>
     <form [formGroup]="advisorForm" (ngSubmit)="updateAdvisor()">
       <div class="form-group">
-        <label for="full_name">Full Name</label>
+        <label for="full_name">Nombre Completo</label>
         <input type="text" id="full_name" nbInput fullWidth formControlName="full_name">
       </div>
       <div class="form-group">
         <label for="email">Email</label>
         <input type="email" id="email" nbInput fullWidth formControlName="email">
       </div>
-      <button type="submit" nbButton fullWidth status="primary" [disabled]="advisorForm.invalid">Update Advisor</button>
+
+      <!-- Sección de Especialidades -->
+      <div class="form-group" style="margin-top: 2rem;">
+        <h5>Especialidades (Materias que puede enseñar)</h5>
+        <p class="caption">Selecciona las materias en las que el asesor puede dar tutorías:</p>
+        
+        <div *ngIf="isLoadingSubjects" style="text-align: center; padding: 1rem;">
+          <nb-spinner status="primary" size="small"></nb-spinner>
+        </div>
+
+        <nb-list *ngIf="!isLoadingSubjects">
+          <nb-list-item *ngFor="let subject of allSubjects">
+            <nb-checkbox 
+              [checked]="isSubjectSelected(subject.id)"
+              (checkedChange)="toggleSubject(subject.id, $event)">
+              {{ subject.name }}
+            </nb-checkbox>
+          </nb-list-item>
+        </nb-list>
+      </div>
+
+      <button type="submit" nbButton fullWidth status="primary" [disabled]="advisorForm.invalid">
+        Actualizar Asesor
+      </button>
     </form>
   </nb-card-body>
 </nb-card>

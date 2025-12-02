@@ -15,6 +15,16 @@ export const ACADEMIC_MENU: NbMenuItem[] = [
         icon: 'edit-2-outline',
         link: '/pages/academic/enrollments/new',
       },
+      {
+        title: 'Asesores',
+        icon: 'people-outline',
+        link: '/pages/academic/advisors',
+      },
+      {
+        title: 'Especialidades de Asesores',
+        icon: 'star-outline',
+        link: '/pages/academic/advisors/specializations',
+      },
     ],
   },
 ];
