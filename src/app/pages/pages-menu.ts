@@ -32,4 +32,23 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
     ],
   },
+  {
+    title: 'Asesores',
+    icon: 'people-outline',
+    link: '/pages/academic/advisors',
+  },
+  {
+    title: 'CLIENTE',
+    group: true,
+  },
+  {
+    title: 'Home',
+    icon: 'person-outline',
+    link: '/pages/client/home',
+  },
+  {
+    title: 'Explorar Asesores',
+    icon: 'search-outline',
+    link: '/pages/client/browse',
+  },
 ];

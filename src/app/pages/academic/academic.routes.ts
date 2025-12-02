@@ -21,4 +21,19 @@ export const ACADEMIC_ROUTES: Routes = [
     loadComponent: () =>
       import('./enrollments/enrollment-wizard.component').then(m => m.EnrollmentWizardComponent),
   },
+  {
+    path: 'advisors',
+    loadComponent: () =>
+      import('./advisors/advisors.component').then(m => m.AdvisorsComponent),
+  },
+  {
+    path: 'advisors/new',
+    loadComponent: () =>
+      import('./advisors/advisor-add.component').then(m => m.AdvisorAddComponent),
+  },
+  {
+    path: 'advisors/edit/:id',
+    loadComponent: () =>
+      import('./advisors/advisor-edit.component').then(m => m.AdvisorEditComponent),
+  },
 ];

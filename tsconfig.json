@@ -1,12 +1,12 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
     "paths": {
       "@pages/*": ["src/app/pages/*"],
       "@core/*": ["src/app/core/*"],
       "@theme/*": ["src/app/@theme/*"]
     },
+    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "strict": true,
     "noImplicitOverride": true,

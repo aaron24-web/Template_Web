@@ -18,6 +18,10 @@ export const PAGES_ROUTES: Routes = [
         path: 'academic',
         loadChildren: () => import('./academic/academic.routes').then(m => m.ACADEMIC_ROUTES),
       },
+      {
+        path: 'client',
+        loadChildren: () => import('./client/client.routes').then(m => m.CLIENT_ROUTES),
+      },
     ],
   },
 ];

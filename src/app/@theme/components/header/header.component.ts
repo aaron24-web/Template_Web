@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   NbActionsModule,
@@ -8,8 +8,12 @@ import {
   NbSelectModule,
   NbUserModule,
   NbThemeService,
+  NbMenuService,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
+import { Router } from '@angular/router';
+import { filter, map } from 'rxjs/operators';
+import { SupabaseService } from '../../../core/services/supabase.service';
 
 @Component({
   selector: 'ngx-header',
@@ -99,7 +103,8 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
     }
   `]
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
+  private supabaseService = inject(SupabaseService);
   userMenu = [
     { title: 'Profile' },
     { title: 'Log out' },
@@ -119,8 +124,26 @@ export class HeaderComponent {
 
   currentTheme = 'default';
 
-  constructor(private themeService: NbThemeService) {
+  constructor(
+    private themeService: NbThemeService,
+    private menuService: NbMenuService,
+    private router: Router,
+  ) {
     this.currentTheme = this.themeService.currentTheme;
+  }
+
+  ngOnInit() {
+    this.menuService.onItemClick()
+      .pipe(
+        filter(({ tag }) => tag === 'user-context-menu'),
+        map(({ item: { title } }) => title),
+      )
+      .subscribe(async title => {
+        if (title === 'Log out') {
+          await this.supabaseService.client.auth.signOut();
+          this.router.navigate(['/auth/login']);
+        }
+      });
   }
 
   changeTheme(themeName: string) {

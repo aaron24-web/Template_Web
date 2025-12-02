@@ -1,0 +1,35 @@
+<nb-card>
+  <nb-card-header>
+    <h3>Agregar Nuevo Estudiante</h3>
+  </nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="studentForm" (ngSubmit)="addStudent()">
+      <div class="form-group">
+        <label for="full_name">Nombre Completo</label>
+        <input type="text" id="full_name" nbInput fullWidth formControlName="full_name">
+      </div>
+      <div class="form-group">
+        <label for="birth_date">Fecha de Nacimiento</label>
+        <input type="date" id="birth_date" nbInput fullWidth formControlName="birth_date">
+      </div>
+      <div class="form-group">
+        <label for="grade">Grado Escolar</label>
+        <input type="text" id="grade" nbInput fullWidth formControlName="grade">
+      </div>
+      <div class="form-group">
+        <label for="learning_style">Estilo de Aprendizaje</label>
+        <nb-select id="learning_style" fullWidth formControlName="learning_style">
+          <nb-option value="visual">Visual</nb-option>
+          <nb-option value="auditory">Auditivo</nb-option>
+          <nb-option value="kinesthetic">Kinestésico</nb-option>
+          <nb-option value="reading-writing">Lectura/Escritura</nb-option>
+        </nb-select>
+      </div>
+      <div class="form-group">
+        <label for="medical_notes">Notas Médicas</label>
+        <textarea id="medical_notes" nbInput fullWidth formControlName="medical_notes"></textarea>
+      </div>
+      <button type="submit" nbButton fullWidth status="primary" [disabled]="studentForm.invalid">Agregar Estudiante</button>
+    </form>
+  </nb-card-body>
+</nb-card>

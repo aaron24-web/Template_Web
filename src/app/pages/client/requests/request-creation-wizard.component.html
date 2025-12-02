@@ -1,0 +1,54 @@
+<nb-card>
+  <nb-card-header>
+    <h3>Crear Nueva Solicitud de Tutoría</h3>
+  </nb-card-header>
+  <nb-card-body>
+    <nb-stepper orientation="horizontal">
+      <nb-step [stepControl]="firstForm" label="Estudiante">
+        <form [formGroup]="firstForm" (ngSubmit)="onFirstSubmit()">
+          <div class="form-group">
+            <label for="student">Selecciona un estudiante</label>
+            <nb-select id="student" fullWidth formControlName="student">
+              <nb-option *ngFor="let student of students" [value]="student.id">{{ student.full_name }}</nb-option>
+            </nb-select>
+          </div>
+          <button nbButton nbStepperNext>Siguiente</button>
+        </form>
+      </nb-step>
+      <nb-step [stepControl]="secondForm" label="Materias">
+        <form [formGroup]="secondForm" (ngSubmit)="onSecondSubmit()">
+          <div class="form-group">
+            <label for="subjects">Selecciona las materias</label>
+            <nb-select id="subjects" fullWidth multiple formControlName="subjects">
+              <nb-option *ngFor="let subject of subjects" [value]="subject.id">{{ subject.name }}</nb-option>
+            </nb-select>
+          </div>
+          <button nbButton nbStepperPrevious>Anterior</button>
+          <button nbButton nbStepperNext>Siguiente</button>
+        </form>
+      </nb-step>
+      <nb-step [stepControl]="thirdForm" label="Asesor (Opcional)">
+        <form [formGroup]="thirdForm" (ngSubmit)="onThirdSubmit()">
+          <div class="form-group">
+            <label for="advisor">Selecciona un asesor de preferencia</label>
+            <nb-select id="advisor" fullWidth formControlName="advisor">
+              <nb-option *ngFor="let advisor of advisors" [value]="advisor.id">{{ advisor.full_name }}</nb-option>
+            </nb-select>
+          </div>
+          <button nbButton nbStepperPrevious>Anterior</button>
+          <button nbButton nbStepperNext>Siguiente</button>
+        </form>
+      </nb-step>
+      <nb-step [stepControl]="fourthForm" label="Descripción">
+        <form [formGroup]="fourthForm" (ngSubmit)="onFourthSubmit()">
+          <div class="form-group">
+            <label for="description">Describe la necesidad</label>
+            <textarea id="description" nbInput fullWidth formControlName="description"></textarea>
+          </div>
+          <button nbButton nbStepperPrevious>Anterior</button>
+          <button nbButton status="primary">Enviar Solicitud</button>
+        </form>
+      </nb-step>
+    </nb-stepper>
+  </nb-card-body>
+</nb-card>

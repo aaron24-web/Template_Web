@@ -16,6 +16,29 @@ export class SupabaseService {
         return this.supabase;
     }
 
+    async isAuthenticated(): Promise<boolean> {
+        const { data } = await this.supabase.auth.getSession();
+        return !!data.session;
+    }
+
+    async getClientId(): Promise<string | null> {
+        const { data: { session } } = await this.supabase.auth.getSession();
+        if (!session) {
+          return null;
+        }
+        const { data: client, error } = await this.supabase
+          .from('clients')
+          .select('id')
+          .eq('user_id', session.user.id)
+          .single();
+
+        if (error) {
+          return null;
+        }
+
+        return client.id;
+    }
+
     getDashboardStats() {
         return this.supabase.rpc('get_dashboard_stats');
     }

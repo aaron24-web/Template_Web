@@ -1,0 +1,12 @@
+<nb-card>
+  <nb-card-header>
+    <h3>Explorar Asesores</h3>
+  </nb-card-header>
+  <nb-card-body>
+    <div *ngFor="let advisor of advisors" class="advisor-card">
+      <h4>{{ advisor.full_name }}</h4>
+      <p>Rating: {{ advisor.rating }}</p>
+      <button nbButton status="primary" (click)="requestTutoring(advisor.id)">Solicitar Tutoría</button>
+    </div>
+  </nb-card-body>
+</nb-card>

@@ -1,0 +1,29 @@
+<nb-card>
+  <nb-card-header>
+    <h3>Manage Advisors</h3>
+    <button nbButton status="primary" (click)="addAdvisor()">Add Advisor</button>
+  </nb-card-header>
+  <nb-card-body>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Rating</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let advisor of advisors">
+          <td>{{ advisor.full_name }}</td>
+          <td>{{ advisor.email }}</td>
+          <td>{{ advisor.rating }}</td>
+          <td>
+            <button nbButton status="info" size="small" (click)="editAdvisor(advisor.id)">Edit</button>
+            <button nbButton status="danger" size="small" (click)="deleteAdvisor(advisor.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+</nb-card>

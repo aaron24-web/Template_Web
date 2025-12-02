@@ -1,0 +1,22 @@
+<nb-card>
+  <nb-card-header>
+    <h3>Add New Advisor</h3>
+  </nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="advisorForm" (ngSubmit)="addAdvisor()">
+      <div class="form-group">
+        <label for="full_name">Full Name</label>
+        <input type="text" id="full_name" nbInput fullWidth formControlName="full_name">
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" nbInput fullWidth formControlName="email">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" nbInput fullWidth formControlName="password">
+      </div>
+      <button type="submit" nbButton fullWidth status="primary" [disabled]="advisorForm.invalid">Add Advisor</button>
+    </form>
+  </nb-card-body>
+</nb-card>

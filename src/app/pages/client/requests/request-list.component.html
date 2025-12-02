@@ -1,0 +1,17 @@
+<nb-card>
+  <nb-card-header>
+    <h3>Mis Solicitudes de Tutoría</h3>
+  </nb-card-header>
+  <nb-card-body>
+    <div *ngIf="requests.length > 0; else noRequests">
+      <ul>
+        <li *ngFor="let request of requests">
+          {{ request.need_description }} - {{ request.status }}
+        </li>
+      </ul>
+    </div>
+    <ng-template #noRequests>
+      <p>No tienes solicitudes de tutoría.</p>
+    </ng-template>
+  </nb-card-body>
+</nb-card>

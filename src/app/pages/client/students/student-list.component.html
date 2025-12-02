@@ -1,0 +1,17 @@
+<nb-card>
+  <nb-card-header>
+    <h3>Mis Estudiantes</h3>
+  </nb-card-header>
+  <nb-card-body>
+    <div *ngIf="students.length > 0; else noStudents">
+      <ul>
+        <li *ngFor="let student of students">
+          {{ student.full_name }}
+        </li>
+      </ul>
+    </div>
+    <ng-template #noStudents>
+      <p>No tienes estudiantes registrados.</p>
+    </ng-template>
+  </nb-card-body>
+</nb-card>
